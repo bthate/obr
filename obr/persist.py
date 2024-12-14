@@ -34,7 +34,7 @@ class Config(Obj):
 
     fqns = []
     name = "obz"
-    wdr  = os.path.expanduser("~/.{Config.name}")
+    wdr  = ""
 
 
 def long(name):

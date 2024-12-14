@@ -10,11 +10,15 @@ import os
 import sys
 
 
-from . import Client, Commands, Event, command, errors, parse, scan, wrap
+from .client  import Client
+from .command import Commands, command, parse, scan
+from .errors  import errors
+from .event   import Event
 from .persist import Config
+from .utils   import wrap
 
 
-Config.name = "obx"
+Config.name = "obr"
 Config.wdr  = os.path.expanduser(f"~/.{Config.name}")
 
 
