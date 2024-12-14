@@ -5,6 +5,12 @@
 "timers"
 
 
+import threading
+import time
+
+
+from .thread import launch, name
+
 
 class Timer:
 

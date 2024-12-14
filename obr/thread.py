@@ -10,6 +10,9 @@ import threading
 import time
 
 
+from .errors import later
+
+
 class Thread(threading.Thread):
 
     def __init__(self, func, thrname, *args, daemon=True, **kwargs):

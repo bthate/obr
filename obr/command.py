@@ -10,6 +10,7 @@ import types
 
 
 from .default import Default
+from .thread  import launch
 from .utils   import spl
 
 

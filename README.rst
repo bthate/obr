@@ -1,7 +1,11 @@
+README
+======
+
+
 **NAME**
 
 
-``obr`` - deferred exception handling
+``obr`` - object runtime
 
 
 **SYNOPSIS**
@@ -18,16 +22,22 @@
 **DESCRIPTION**
 
 
-``obr`` contains all the python3 code to program objects in a functional
+``OBR`` contains all the python3 code to program objects in a functional
 way. It provides a base Object class that has only dunder methods, all
 methods are factored out into functions with the objects as the first
 argument. It is called Object Programming (OP), OOP without the
 oriented.
 
-``obr`` allows for easy json save//load to/from disk of objects. It
+``OBR`` allows for easy json save//load to/from disk of objects. It
 provides an "clean namespace" Object class that only has dunder
 methods, so the namespace is not cluttered with method names. This
 makes storing and reading to/from json possible.
+
+
+``OBR`` has all you need to program a unix cli program, such as disk
+perisistence for configuration files, event handler to handle the
+client/server connection, deferred exception handling to not crash
+on an error, etc.
 
 
 **INSTALL**
@@ -40,14 +50,17 @@ makes storing and reading to/from json possible.
 
 **SOURCE**
 
+
 source is at https://github.com/bthate/obr
 
 
 **AUTHOR**
 
+
 Bart Thate <bthate@dds.nl>
 
 
 **COPYRIGHT**
+
 
 ``obr`` is Public Domain.
