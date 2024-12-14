@@ -65,6 +65,9 @@ param.ver = [""]
 
 class CLI(Client):
 
+    def dosay(self, channel, txt):
+        print(txt)
+
     def raw(self, txt):
         if "v" in cfg.opts:
             print(txt)

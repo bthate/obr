@@ -1,5 +1,5 @@
 # This file is placed in the Public Domain.
-# pylint: disable=C
+# pylint: disable=C,R0903
 
 
 "composite"
@@ -14,6 +14,7 @@ from obr.object import Object, dumps, loads
 class Tmp(Object):
 
     pass
+
 
 class Temp(Object):
 

@@ -13,7 +13,8 @@ import _thread
 
 
 from obr.object  import Object, update
-from obr.persist import find, ident, spl, write
+from obr.persist import find, ident, write
+from obr.utils   import spl
 
 
 from .rss import Rss

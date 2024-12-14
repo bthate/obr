@@ -1,5 +1,5 @@
 # This file is placed in the Public Domain.
-# pylint: disable=C0115,C0116,C0415,R0903,R0912,R0915,W0105,W0718,E0402
+# pylint: disable=C0115,C0116,C0415,R0903,R0912,R0915,W0105,W0611,W0718,E0402
 
 
 "main"
@@ -13,7 +13,7 @@ import time
 
 
 from .client  import Client
-from .command import Commands, command, parse, scan
+from .command import command, parse, scan
 from .errors  import errors, later
 from .event   import Event
 from .persist import Config
@@ -29,6 +29,10 @@ Cfg = Config()
 
 class CLI(Client):
 
+
+    def dosay(self, channel, txt):
+        self.raw(txt)
+
     def raw(self, txt):
         print(txt)
 
@@ -37,6 +41,7 @@ class Console(CLI):
 
     def announce(self, txt):
         self.raw(txt)
+
 
     def callback(self, evt):
         CLI.callback(self, evt)
@@ -79,8 +84,8 @@ def main():
         if "v" in Cfg.opts:
             banner()
         if os.path.exists("mods"):
-            from mods import face
-            scan(face, init=True)
+            from mods import face as face2
+            scan(face2, init=True)
             if "v" in Cfg.opts:
                 face.irc.output = print
         csl = Console()
@@ -96,5 +101,5 @@ def main():
 
 if __name__ == "__main__":
     wrap(main)
-    for txt in errors():
-        print(txt)
+    for text in errors():
+        print(text)
