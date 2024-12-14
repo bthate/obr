@@ -5,7 +5,7 @@ README
 **NAME**
 
 
-``obr`` - object runtime
+``OBR`` - object runtime
 
 
 **SYNOPSIS**
@@ -63,4 +63,4 @@ Bart Thate <bthate@dds.nl>
 **COPYRIGHT**
 
 
-``obr`` is Public Domain.
+``OBR`` is Public Domain.
