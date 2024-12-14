@@ -21,9 +21,8 @@ from urllib.parse import quote_plus, urlencode
 
 from obr.object  import Object, format, update
 from obr.persist import Cache, find, fntime, laps, last, ident, spl, write
-
-
-from obr import Repeater, launch
+from obr.timer   import Repeater
+from obr.thread  import launch
 
 
 DEBUG = False

@@ -21,8 +21,11 @@ from obr.object  import Object
 from obr.persist import Config, laps, skel
 
 
-from obr import Client, Commands, Errors, Event
-from obr import errors, later, launch, parse, scan
+from obr.client import Client
+from obr.command import Commands, parse, scan
+from obr.errors import errors, later
+from obr.event import  Event
+from obr.thread import launch
 
 
 cfg = Config()
@@ -137,12 +140,13 @@ def main():
         thr.join()
     consume(events)
     time.sleep(0.1)
+    clt.wait()
     clt.stop()
     endtime = time.time()
     lap = laps(endtime-STARTTIME)
     percall = (endtime-STARTTIME)/(nrs*nrcommands)
     print(f"{lap} {nrs} {nrcommands} {percall}")
-    if not Errors.errors:
+    if not errors():
         print("no errors")
 
 

@@ -6,12 +6,14 @@
 
 
 from .command import command
+from .output  import Output
 from .reactor import Reactor
 
 
-class Client(Reactor):
+class Client(Output, Reactor):
 
     def __init__(self):
+        Output.__init__(self)
         Reactor.__init__(self)
         self.register("command", command)
 
@@ -21,6 +23,10 @@ class Client(Reactor):
 
     def raw(self, txt):
         raise NotImplementedError
+ 
+    def start(self):
+        Output.start(self)
+        Reactor.start(self)
 
 
 def __dir__():

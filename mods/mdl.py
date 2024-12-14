@@ -9,11 +9,10 @@ import datetime
 import time
 
 
+from obr.event   import Event
 from obr.object  import Object, construct, keys
 from obr.persist import Cache, laps
-
-
-from obr import Event, Repeater
+from obr.timer   import Repeater
 
 
 DAY = 24*60*60

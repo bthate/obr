@@ -5,8 +5,8 @@
 "commands"
 
 
+from obr.command import Commands
 from obr.object import keys
-from obr import Commands
 
 
 def cmd(event):
