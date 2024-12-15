@@ -6,7 +6,7 @@
 
 
 from obr.command import Commands
-from obr.object import keys
+from obx import keys
 
 
 def cmd(event):

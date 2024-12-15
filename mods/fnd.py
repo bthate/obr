@@ -8,8 +8,8 @@
 import time
 
 
-from obr.object  import format
-from obr.persist import find, fntime, laps, long, skel, types
+from obx         import format
+from obx.persist import find, fntime, laps, long, skel, types
 
 
 def fnd(event):

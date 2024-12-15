@@ -6,13 +6,51 @@
 
 
 import inspect
+import threading
 import types
 
 
-from .default import Default
-from .errors  import later
-from .thread  import launch
-from .utils   import spl
+from . import later, launch
+
+
+class Default:
+
+    def __contains__(self, key):
+        return key in dir(self)
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, "")
+
+    def __iter__(self):
+        return iter(self.__dict__)
+
+    def __len__(self):
+        return len(self.__dict__)
+
+
+class Event(Default):
+
+    def __init__(self):
+        Default.__init__(self)
+        self._ready = threading.Event()
+        self._thr   = None
+        self.result = []
+        self.type   = "event"
+        self.txt    = ""
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def ready(self):
+        self._ready.set()
+
+    def reply(self, txt):
+        self.result.append(txt)
+
+    def wait(self):
+        self._ready.wait()
+        if self._thr:
+            self._thr.join()
 
 
 class Commands:
@@ -54,19 +92,6 @@ def modloop(*pkgs, disable=""):
             if modname.startswith("__"):
                 continue
             yield getattr(pkg, modname)
-
-
-def scan(*pkgs, init=False, disable=""):
-    result = []
-    for mod in modloop(*pkgs, disable=disable):
-        if type(mod) is not types.ModuleType:
-            continue
-        Commands.scan(mod)
-        thr = None
-        if init and "init" in dir(mod):
-            thr = launch(mod.init)
-        result.append((mod, thr))
-    return result
 
 
 def parse(obj, txt=None) -> None:
@@ -125,9 +150,31 @@ def parse(obj, txt=None) -> None:
     return obj
 
 
+def scan(*pkgs, init=False, disable=""):
+    result = []
+    for mod in modloop(*pkgs, disable=disable):
+        if type(mod) is not types.ModuleType:
+            continue
+        Commands.scan(mod)
+        thr = None
+        if init and "init" in dir(mod):
+            thr = launch(mod.init)
+        result.append((mod, thr))
+    return result
+
+
+def spl(txt):
+    try:
+        result = txt.split(',')
+    except (TypeError, ValueError):
+        result = txt
+    return [x for x in result if x]
+
+
 def __dir__():
     return (
         'Commands',
+        'Event',
         'parse',
         'scan'
     )

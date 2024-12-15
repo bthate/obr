@@ -19,11 +19,13 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 
 
-from obr.object  import Object, format, update
-from obr.persist import Cache, find, fntime, laps, last, ident, write
-from obr.timer   import Repeater
-from obr.thread  import launch
-from obr.utils   import spl
+from obx.persist import Cache, find, fntime, laps, last, ident, write
+from obx         import Object, format, update
+
+
+from obr.command import spl
+from obr         import Repeater, launch
+
 
 DEBUG = False
 

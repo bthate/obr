@@ -17,15 +17,13 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.object  import Object
-from obr.persist import Config, laps, skel
+from obx.persist import Config, laps, skel
+from obx         import Object
 
 
-from obr.client import Client
-from obr.command import Commands, parse, scan
-from obr.errors import errors, later
-from obr.event import  Event
-from obr.thread import launch
+from obr.client  import Client
+from obr.command import Commands, Event, parse, scan
+from obr         import errors, later, launch
 
 
 cfg = Config()

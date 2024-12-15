@@ -8,8 +8,8 @@
 import time
 
 
-from obr.object  import Object
-from obr.persist import find, fntime, ident, laps, write
+from obx.persist import find, fntime, ident, laps, write
+from obx         import Object
 
 
 class Todo(Object):

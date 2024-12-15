@@ -16,14 +16,13 @@ import time
 import _thread
 
 
-from obr.command import Commands, parse
-from obr.errors  import later
-from obr.event   import Event
-from obr.object  import Object, edit, format, keys
-from obr.persist import Cache, ident, last, write
-from obr.persist import Config as Main
-from obr.reactor import Reactor
-from obr.thread  import launch
+from obr.command import Commands, Event, parse
+from obr         import Reactor, later, launch
+
+
+from obx.persist import Cache, ident, last, write
+from obx.persist import Config as Main
+from obx         import Object, edit, format, keys
 
 
 IGNORE = ["PING", "PONG", "PRIVMSG"]
