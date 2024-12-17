@@ -16,8 +16,8 @@ import time
 sys.path.insert(0, os.getcwd())
 
 
-from obr.client  import Client
-from obr.command import Default, Event, command, parse, scan
+from obr.client  import Client, Event
+from obr.command import command, parse, scan
 from obr         import errors, forever, later
 
 

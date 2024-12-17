@@ -16,7 +16,8 @@ import time
 import _thread
 
 
-from obr.command import Commands, Event, parse
+from obr.client  import Event
+from obr.command import Commands, parse
 from obr         import Reactor, later, launch
 
 

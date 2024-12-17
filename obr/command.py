@@ -13,46 +13,6 @@ import types
 from . import later, launch
 
 
-class Default:
-
-    def __contains__(self, key):
-        return key in dir(self)
-
-    def __getattr__(self, key):
-        return self.__dict__.get(key, "")
-
-    def __iter__(self):
-        return iter(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-
-class Event(Default):
-
-    def __init__(self):
-        Default.__init__(self)
-        self._ready = threading.Event()
-        self._thr   = None
-        self.result = []
-        self.type   = "event"
-        self.txt    = ""
-
-    def __str__(self):
-        return str(self.__dict__)
-
-    def ready(self):
-        self._ready.set()
-
-    def reply(self, txt):
-        self.result.append(txt)
-
-    def wait(self):
-        self._ready.wait()
-        if self._thr:
-            self._thr.join()
-
-
 class Commands:
 
     cmds = {}
@@ -68,6 +28,21 @@ class Commands:
                 continue
             if 'event' in cmdz.__code__.co_varnames:
                 Commands.add(cmdz)
+
+
+class Default:
+
+    def __contains__(self, key):
+        return key in dir(self)
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, "")
+
+    def __iter__(self):
+        return iter(self.__dict__)
+
+    def __len__(self):
+        return len(self.__dict__)
 
 
 def command(bot, evt):

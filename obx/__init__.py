@@ -14,6 +14,22 @@ class Object:
         return str(self.__dict__)
 
 
+class Obj(Object):
+
+    def __contains__(self, key):
+        return key in dir(self)
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, "")
+
+    def __iter__(self):
+        return iter(self.__dict__)
+
+    def __len__(self):
+        return len(self.__dict__)
+
+
+
 def construct(obj, *args, **kwargs):
     if args:
         val = args[0]
@@ -190,6 +206,7 @@ def dumps(*args, **kw):
 def __dir__():
     return (
         'Object',
+        'Obj',
         'construct',
         'dumps',
         'edit',

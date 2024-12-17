@@ -6,9 +6,10 @@
 
 
 import queue
+import threading
 
 
-from .command import command
+from .command import Default, command
 from .        import Reactor, launch
 
 
@@ -64,8 +65,35 @@ class Client(Output, Reactor):
         Reactor.start(self)
 
 
+class Event(Default):
+
+    def __init__(self):
+        Default.__init__(self)
+        self._ready = threading.Event()
+        self._thr   = None
+        self.result = []
+        self.type   = "event"
+        self.txt    = ""
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def ready(self):
+        self._ready.set()
+
+    def reply(self, txt):
+        self.result.append(txt)
+
+    def wait(self):
+        self._ready.wait()
+        if self._thr:
+            self._thr.join()
+
+
+
 def __dir__():
     return (
         'Client',
+        'Event',
         'Output'
     )

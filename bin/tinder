@@ -21,8 +21,8 @@ from obx.persist import Config, laps, skel
 from obx         import Object
 
 
-from obr.client  import Client
-from obr.command import Commands, Event, parse, scan
+from obr.client  import Client, Event
+from obr.command import Commands, parse, scan
 from obr         import errors, later, launch
 
 

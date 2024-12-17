@@ -9,8 +9,8 @@ import datetime
 import time
 
 
-from obr.command import Event
-from obr         import Repeater
+from obr.client import Event
+from obr        import Repeater
 
 
 from obx.persist import Cache, laps

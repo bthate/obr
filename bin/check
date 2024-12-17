@@ -10,7 +10,7 @@ import sys
 
 
 IGNORE = ["control", "console", "daemon", "service"]
-NAME = "obx"
+NAME = "obr"
 
 
 def ignore(txt):
