@@ -86,7 +86,8 @@ def main():
         banner()
     if os.path.exists("mods"):
         from mods import face
-        face.irc.output = print
+        if "v" in cfg.opts:
+            face.irc.output = print
         for mod, thr in scan(face, init="i" in cfg.opts):
             if "w" in cfg.opts and thr:
                 thr.join()
