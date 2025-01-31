@@ -17,7 +17,6 @@ import obr
 from obr.objects import *
 
 
-import obr.clients
 import obr.objects
 import obr.persist
 import obr.runtime

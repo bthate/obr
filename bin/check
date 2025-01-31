@@ -9,21 +9,11 @@ import os
 import sys
 
 
-IGNORE = ["control", "console", "daemon", "service"]
 NAME = "obr"
-
-
-def ignore(txt):
-    for ign in IGNORE:
-        if ign in txt:
-            return True
-    return False
 
 
 def popen(txt):
     for line in os.popen(txt).readlines():
-        if ignore(line):
-             continue
         print(line.rstrip())
         sys.stdout.flush()
 
@@ -35,7 +25,7 @@ def main():
     popen(f'grep -R importlib {NAME}')
     #popen(f'grep -R "import os" {NAME}')
     popen(f'grep -R "import sys" {NAME}')
-    #popen(f'grep -R "import inspect" {NAME}')
+    popen(f'grep -R "import inspect" {NAME}')
     popen(f'grep -R getpass {NAME}')
 
 
