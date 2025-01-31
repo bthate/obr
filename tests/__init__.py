@@ -1,8 +1,10 @@
 # This file is placed in the Public Domain.
 
 
-import os
+"include path"
+
+
 import sys
 
 
-sys.path.insert(0, os.getcwd())
+sys.path.insert(0, "..")
