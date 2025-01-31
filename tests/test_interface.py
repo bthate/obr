@@ -23,7 +23,6 @@ import obr.runtime
 
 
 PACKAGE = [
-    'clients',
     'objects',
     'persist',
     'runtime'
