@@ -8,10 +8,10 @@
 import unittest
 
 
-from obx.objects import Object, items, keys, update, values
+from obr.objects import Object, items, keys, update, values
 
 
-import obx
+import obr
 
 
 VALIDJSON = '{"test": "bla"}'
@@ -66,7 +66,7 @@ attrs2 = (
 
 
 OBJECT  = Object()
-PACKAGE = obx
+PACKAGE = obr
 
 
 class TestObject(unittest.TestCase):
@@ -148,7 +148,7 @@ class TestObject(unittest.TestCase):
         self.assertTrue(okd)
 
     def test_module(self):
-        self.assertEqual(Object().__module__, "obx.objects")
+        self.assertEqual(Object().__module__, "obr.objects")
 
     def test_register(self):
         obj = Object()

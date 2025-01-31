@@ -8,7 +8,7 @@
 import unittest
 
 
-from obx.objects import Object, dumps, loads
+from obr.objects import Object, dumps, loads
 
 
 VALIDJSON = "{'test': 'bla'}"

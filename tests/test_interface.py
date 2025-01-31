@@ -11,23 +11,20 @@ import sys
 import unittest
 
 
-import obx
+import obr
 
 
-from obx.objects import *
+from obr.objects import *
 
 
-import obx.clients
-import obx.modules
-import obx.objects
-import obx.persist
-import obx.runtime
+import obr.clients
+import obr.objects
+import obr.persist
+import obr.runtime
 
 
 PACKAGE = [
     'clients',
-    'command',
-    'modules',
     'objects',
     'persist',
     'runtime'
@@ -68,7 +65,7 @@ class TestInterface(unittest.TestCase):
     def test_package(self):
         okd = True
         for mod in PACKAGE:
-            mod1 = getattr(obx, mod, None)
+            mod1 = getattr(obr, mod, None)
             if not mod1:
                 okd = False
                 print(mod)

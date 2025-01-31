@@ -8,7 +8,7 @@
 import unittest
 
 
-from obx.objects import Object
+from obr.objects import Object
 
 
 class Mix:
