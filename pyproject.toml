@@ -30,4 +30,5 @@ classifiers = [
 [tool.setuptools]
 packages = [
     "obr",
+    "obr.modules"
 ]
