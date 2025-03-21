@@ -261,7 +261,7 @@ def srv(event):
 
 
 def tbl(event):
-    import obx.modules
+    import obr.modules
     for mod in mods():
         scan(mod)
     event.reply("# This file is placed in the Public Domain.")

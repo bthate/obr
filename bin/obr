@@ -21,17 +21,13 @@ sys.path.insert(0, os.getcwd())
 from obr.client  import Client
 from obr.error   import Errors
 from obr.event   import Event
+from obr.modules import Commands, Main, command, load, mods, modules, parse, scan
 from obr.object  import dumps
 from obr.thread  import launch
 from obr.utils   import nodebug, spl
 from obr.workdir import Workdir, pidname
 
 
-if os.path.exists("mods"):
-    from mods import Commands, Main, command, load, mods, modules, parse, scan
-else:
-    print("can't find modules")
-    os._exit(0)
 
 
 p = os.path.join
