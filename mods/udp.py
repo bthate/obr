@@ -11,9 +11,9 @@ import threading
 import time
 
 
-from ..client import Fleet
-from ..object import Object
-from ..thread import launch
+from obr.clients import Fleet
+from obr.objects import Object
+from obr.runtime import launch
 
 
 DEBUG = True

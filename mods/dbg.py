@@ -7,7 +7,7 @@
 import time
 
 
-from ..fleet import Fleet
+from obr.clients import Fleet
 
 
 def dbg(event):

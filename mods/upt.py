@@ -7,10 +7,8 @@
 import time
 
 
-from ..utils  import elapsed
-
-
-from . import STARTTIME
+from obr.runtime import STARTTIME
+from obr.utility import elapsed
 
 
 def upt(event):

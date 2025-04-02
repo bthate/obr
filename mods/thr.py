@@ -8,11 +8,9 @@ import threading
 import time
 
 
-from ..object import Object, update
-from ..utils  import elapsed
-
-
-from . import STARTTIME
+from obr.objects import Object, update
+from obr.runtime import STARTTIME
+from obr.utility import elapsed
 
 
 def thr(event):

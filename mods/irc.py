@@ -9,26 +9,22 @@ import os
 import queue
 import socket
 import ssl
-import sys
 import textwrap
 import threading
 import time
 
 
-from ..client  import Client, Fleet
-from ..disk    import write
-from ..event   import Event
-from ..find    import ident, last
-from ..object  import Default, Object, edit, fmt, keys
-from ..thread  import launch
-from ..utils   import debug as ldebug
-from ..workdir import store
+from obr.clients import Client, Fleet
+from obr.objects import Default, Object, edit, fmt, keys
+from obr.persist import ident, last, store, write
+from obr.runtime import Event, launch
+
 
 from . import Main, command
+from . import debug as ldebug
 
 
 IGNORE  = ["PING", "PONG", "PRIVMSG"]
-NAME    = sys.argv[0].split(os.sep)[-1]
 
 
 saylock = threading.RLock()

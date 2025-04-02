@@ -5,9 +5,7 @@
 
 
 NAMES = {
-    "brk": "dbg",
     "cfg": "irc",
-    "dbg": "dbg",
     "dis": "mdl",
     "dne": "tdo",
     "dpl": "rss",
@@ -32,26 +30,29 @@ NAMES = {
     "tdo": "tdo",
     "thr": "thr",
     "tmr": "tmr",
-    "upt": "upt"
+    "upt": "upt",
+    "wsd": "wsd"
 }
 
 
 MD5 = {
-    "dbg": "3e8f37c77b8e0a68a3812b8f2d91673e",
-    "err": "c41b0a0b1aaaae11249a767e3fb365d4",
-    "flt": "7657a391f5bc4ecc823c0dc248427ed1",
-    "fnd": "abbf7f2601b5d14f4f80e87c25fbe4d0",
-    "irc": "4d528e48a802ad50d9308523ec57c23c",
-    "log": "799118a89d0649453e30b23d2570ef02",
-    "man": "1182aec1049fc74607eb9efd3e00d9d7",
-    "mdl": "99a1e5441f6e8fcad3104a41f36f1a57",
+    "err": "88a0ef9a7068f752ee46b620149a7744",
+    "flt": "cbe4be0c596537f2a4077e3fabfc4bd5",
+    "fnd": "673cdea3b3e0dc54f16a481e6bce1b09",
+    "irc": "529038034084327905892d73126d7558",
+    "log": "e88d28a02022fd89a7b5dcbbde2eff89",
+    "man": "8f2d5f47a048353291b311c9fe9f8cd6",
+    "mdl": "1e66c80d3f5894a3afd119ae4d52b1ea",
     "mod": "82d9b50b3a2a446fbb857de7192b8f28",
     "req": "a0013d5e8582b1cb56854d17e9c66a95",
-    "rss": "6baac83d5d9ad009fd83cceb3433983e",
-    "slg": "3f73218a8d689b60fce8de76af10846a",
+    "rss": "4b925d2919cf2f5dd7af506eae3c6d47",
+    "rst": "8a34ccdff40b0bb56892f0c99082e3ad",
+    "slg": "6c4f3517e9fe4a5588dbda062712a2eb",
     "tbl": "d41d8cd98f00b204e9800998ecf8427e",
-    "tdo": "ff882598f1958a571d68726a876dd66b",
-    "thr": "e24a99fce3e81eff1fe58f78ff49ab5a",
-    "tmr": "c6fd7a8d9b3e97c31a16873c3b5df5b2",
-    "upt": "a673a80f2085ea2705a391c245c0ab57",
+    "tdo": "60be2ca049f13b082a9cf6f366a9c293",
+    "thr": "c292bcba0ad028e4e44843940c004d94",
+    "tmr": "b5e93fb21bb9dad1c6e80f5c7bf909ad",
+    "upt": "8c4a8728d4eca5fcefe49351b95bf9b9",
+    "web": "9e0cfb25a75850c3570e9571fa9c58c2",
+    "wsd": "7bb44c895580b00d0f6bf083e0881267",
 }

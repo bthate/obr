@@ -7,11 +7,9 @@
 import time
 
 
-from ..disk    import write
-from ..find    import find, fntime, ident
-from ..object  import Object
-from ..utils   import elapsed
-from ..workdir import store
+from obr.persist import find, fntime, ident, store, write
+from obr.objects import Object
+from obr.utility import elapsed
 
 
 class Todo(Object):

@@ -7,10 +7,9 @@
 import time
 
 
-from ..find    import find, fntime
-from ..object  import fmt
-from ..utils   import elapsed
-from ..workdir import long, skel, types
+from obr.persist import find, fntime, long, skel, types
+from obr.objects import fmt
+from obr.utility import elapsed
 
 
 def fnd(event):
