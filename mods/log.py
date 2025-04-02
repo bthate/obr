@@ -9,7 +9,9 @@ import time
 
 from obr.objects import Object
 from obr.persist import find, fntime, ident, store, write
-from obr.utility import elapsed
+
+
+from . import elapsed
 
 
 class Log(Object):

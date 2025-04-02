@@ -15,10 +15,9 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.clients import Client
 from obr.objects import dumps
 from obr.persist import Workdir, pidname
-from obr.runtime import Errors, Event
+from obr.runtime import Client, Errors, Event
 
 
 from mods import Main, inits, md5sum, mods, modules, nodebug

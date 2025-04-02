@@ -4,9 +4,8 @@
 "fleet"
 
 
-from obr.clients import Fleet
 from obr.objects import fmt
-from obr.runtime import name
+from obr.runtime import Fleet, name
 
 
 def flt(event):

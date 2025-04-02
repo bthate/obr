@@ -19,11 +19,12 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 
 
-from obr.clients import Fleet
 from obr.persist import find, fntime, ident, last, store, write
 from obr.objects import Object, fmt, update
-from obr.runtime import Repeater, launch
-from obr.utility import elapsed, spl
+from obr.runtime import Fleet, Repeater, launch
+
+
+from . import elapsed, spl
 
 
 DEBUG = False

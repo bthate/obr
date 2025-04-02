@@ -14,10 +14,9 @@ import threading
 import time
 
 
-from obr.clients import Client, Fleet
 from obr.objects import Default, Object, edit, fmt, keys
 from obr.persist import ident, last, store, write
-from obr.runtime import Event, launch
+from obr.runtime import Client, Event, Fleet, launch
 
 
 from . import Main, command

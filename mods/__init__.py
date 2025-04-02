@@ -4,12 +4,45 @@
 "modules"
 
 
+import hashlib
+import importlib
+import importlib.util
 import inspect
+import os
+import sys
+import threading
+import types
 import typing
 
 
-from obr.clients import Fleet
 from obr.objects import Default
+from obr.runtime import Fleet, launch
+
+
+MD5 = {}
+NAMES = {}
+
+
+initlock = threading.RLock()
+loadlock = threading.RLock()
+
+
+checksum = "c8d54dcab25974fe7adce842da2f2c4e"
+checksum = ""
+
+path  = os.path.dirname(__file__)
+pname = f"{__package__}"
+
+
+class Main(Default):
+
+    debug   = False
+    ignore  = 'dbg,llm,mbx,mdl,udp,wsd'
+    init    = ""
+    md5     = True
+    name    = sys.argv[0].split(os.sep)[-1].lower()
+    opts    = Default()
+    verbose = False
 
 
 class Commands:
@@ -116,47 +149,8 @@ def scan(mod) -> None:
             Commands.add(cmdz, mod)
 
 
-"imports"
 
-
-import hashlib
-import importlib
-import importlib.util
-import os
-import sys
-import threading
-import types
-
-
-from obr.objects import Default
-from obr.runtime import launch
-from obr.utility import spl
-
-
-MD5 = {}
-NAMES = {}
-
-
-initlock = threading.RLock()
-loadlock = threading.RLock()
-
-
-checksum = "c8d54dcab25974fe7adce842da2f2c4e"
-checksum = ""
-
-path  = os.path.dirname(__file__)
-pname = f"{__package__}"
-
-
-class Main(Default):
-
-    debug   = False
-    ignore  = 'brk,dbg,llm,mbx,udp'
-    init    = ""
-    md5     = True
-    name    = __package__.split('.', maxsplit=1)[0]
-    opts    = Default()
-    verbose = False
+" utilities"
 
 
 def check(name, sum=""):
@@ -283,6 +277,56 @@ def debug(*args):
 def nodebug():
     with open('/dev/null', 'a+', encoding="utf-8") as ses:
         os.dup2(ses.fileno(), sys.stderr.fileno())
+
+
+"utilities"
+
+
+def elapsed(seconds, short=True) -> str:
+    txt = ""
+    nsec = float(seconds)
+    if nsec < 1:
+        return f"{nsec:.2f}s"
+    yea = 365*24*60*60
+    week = 7*24*60*60
+    nday = 24*60*60
+    hour = 60*60
+    minute = 60
+    yeas = int(nsec/yea)
+    nsec -= yeas*yea
+    weeks = int(nsec/week)
+    nsec -= weeks*week
+    nrdays = int(nsec/nday)
+    nsec -= nrdays*nday
+    hours = int(nsec/hour)
+    nsec -= hours*hour
+    minutes = int(nsec/minute)
+    nsec -= int(minute*minutes)
+    sec = int(nsec)
+    if yeas:
+        txt += f"{yeas}y"
+    if weeks:
+        nrdays += weeks * 7
+    if nrdays:
+        txt += f"{nrdays}d"
+    if short and txt:
+        return txt.strip()
+    if hours:
+        txt += f"{hours}h"
+    if minutes:
+        txt += f"{minutes}m"
+    if sec:
+        txt += f"{sec}s"
+    txt = txt.strip()
+    return txt
+
+
+def spl(txt) -> str:
+    try:
+        result = txt.split(',')
+    except (TypeError, ValueError):
+        result = txt
+    return [x for x in result if x]
 
 
 "interface"

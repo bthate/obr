@@ -11,7 +11,10 @@ import time
 
 from obr.persist import find, ident, store, write
 from obr.objects import Object, fmt, keys, update
-from obr.utility import elapsed, extract_date
+
+
+from .    import elapsed
+from .tmr import extract_date
 
 
 class Email(Object):
