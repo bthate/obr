@@ -12,7 +12,7 @@ README
 
 ::
 
-    >>> from obr.object import *
+    >>> from obr import Object, dumps, loads
     >>> o = Object()
     >>> o.a = "b"
     >>> str(loads(dumps(o)))
@@ -44,8 +44,7 @@ on an error, etc.
 
 ::
 
-    $ pipx install obr
-    $ pipx ensurepath
+    $ pip install obr
 
 
 **SOURCE**
