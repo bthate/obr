@@ -1,83 +1,28 @@
 # This file is placed in the Public Domain.
 
 
-"persistence"
+"locate objects"
 
 
 import datetime
-import json
 import os
 import pathlib
 import threading
-import typing
 import time
 
 
-from .objects import Object, dumps, fqn, items, loads, update
+from .disk   import Cache, read
+from .object import Object, items, update
 
 
 lock = threading.RLock()
 p    = os.path.join
 
 
-class DecodeError(Exception):
-
-    pass
-
-
 class Workdir:
 
     name = __file__.rsplit(os.sep, maxsplit=2)[-2]
     wdr  = ""
-
-
-class Cache:
-
-    objs = {}
-
-    @staticmethod
-    def add(path, obj) -> None:
-        Cache.objs[path] = obj
-
-    @staticmethod
-    def get(path) -> typing.Any:
-        return Cache.objs.get(path, None)
-
-    @staticmethod
-    def typed(matcher) -> [typing.Any]:
-        for key in Cache.objs:
-            if matcher not in key:
-                continue
-            yield Cache.objs.get(key)
-
-
-"disk"
-
-
-def cdir(pth) -> None:
-    path = pathlib.Path(pth)
-    path.parent.mkdir(parents=True, exist_ok=True)
-
-
-def read(obj, pth):
-    with lock:
-        with open(pth, 'r', encoding='utf-8') as ofile:
-            try:
-                obj2 = loads(ofile.read())
-                update(obj, obj2)
-            except json.decoder.JSONDecodeError as ex:
-                raise DecodeError(pth) from ex
-    return pth
-
-
-def write(obj, pth):
-    with lock:
-        cdir(pth)
-        txt = dumps(obj, indent=4)
-        with open(pth, 'w', encoding='utf-8') as ofile:
-            ofile.write(txt)
-        Cache.add(pth, obj)
-    return pth
 
 
 "paths"
@@ -93,12 +38,18 @@ def long(name) -> str:
     return res
 
 
+def moddir():
+    return os.path.join(Workdir.wdr, "mods")
+
+
 def pidname(name) -> str:
     return p(Workdir.wdr, f"{name}.pid")
 
 
 def skel() -> str:
     path = pathlib.Path(store())
+    path.mkdir(parents=True, exist_ok=True)
+    path = pathlib.Path(moddir())
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -113,6 +64,10 @@ def strip(pth, nmr=2) -> str:
 
 def types() -> [str]:
     return os.listdir(store())
+
+
+def wdr(pth):
+    return os.path.join(Workdir.wdr, pth)
 
 
 "find"
@@ -163,6 +118,13 @@ def find(clz, selector=None, deleted=False, matching=False) -> [Object]:
 "methods"
 
 
+def fqn(obj) -> str:
+    kin = str(type(obj)).split()[-1][1:-2]
+    if kin == "type":
+        kin = f"{obj.__module__}.{obj.__name__}"
+    return kin
+
+
 def ident(obj) -> str:
     return p(fqn(obj),*str(datetime.datetime.now()).split())
 
@@ -206,22 +168,21 @@ def search(obj, selector, matching=None) -> bool:
 def __dir__():
     return (
         'Cache',
-        'DecodeError',
         'Workdir',
-        'cdir',
         'fns',
         'fntime',
         'find',
+        'fqn',
         'ident',
         'last',
         'long',
+        'moddir',
         'pidname',
-        'read',
         'search',
         'setwd',
         'skel',
         'store',
         'strip',
         'types',
-        'write'
+        'wdr'
     )
