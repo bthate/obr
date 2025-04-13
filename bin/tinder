@@ -17,14 +17,15 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.clients import Client
-from obr.objects import Object, fmt, keys
-from obr.persist import Workdir, skel
-from obr.runtime import STARTTIME, Errors, Event, Thread, launch
+from obr.client  import Client
+from obr.handler import Event
+from obr.object  import Object, keys
+from obr.store   import Workdir, skel
+from obr.thread  import STARTTIME, Errors, full, launch
 
 
-from mods import Commands, command, debug, parse, table
-from mods import Main, elapsedm, mods, modules, spl
+if os.path.exists("mods"):
+    from mods import Main, command, elapsed, modules, parse, settable, spl
 
 
 Main.debug  = True
@@ -49,6 +50,7 @@ param.dis = [""]
 param.dpl = ["hnrss title,url", ""]
 param.flt = [""]
 param.fnd = ["log", "rss", "config", "todo", ""]
+param.man = [""]
 param.mod = [""]
 param.mre = [""]
 param.nme = ["hnrss hackernews", ""]
@@ -139,14 +141,14 @@ def wrap(function):
         if old3:
             termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old3)
     for exc in Errors.errors:
-        print(Errors.format(exc))
+        for line in full(exc):
+            print(line.rstrip())
 
 
 def main():
     global nrs
     global nrcommand
-    table()
-    print(Commands.names)
+    settable()
     parse(Main, " ".join(sys.argv[1:]))
     nrcommand = 0
     if "v" in Main.opts:
@@ -162,21 +164,20 @@ def main():
     for _nr in range(nrs):
         thrs.append(launch(payload, clt, pre))
     for thr in thrs:
-       nr = thr.join()
-       nrcommand += nr
+        nr = thr.join()
+        nrcommand += nr
     thrs = []
     for _nr in range(nrs):
         thrs.append(launch(payload, clt, param))
     for thr in thrs:
-       nr = thr.join()
-       nrcommand += nr
+        nr = thr.join()
+        nrcommand += nr
     thrs = []
     for _nr in range(nrs):
         thrs.append(launch(payload, clt, post))
     for thr in thrs:
-       nr = thr.join()
-       nrcommand += nr
-    nrz = len(events)
+        nr = thr.join()
+        nrcommand += nr
     consume(events)
 
 

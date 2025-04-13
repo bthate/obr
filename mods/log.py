@@ -7,8 +7,9 @@
 import time
 
 
-from obr.objects import Object
-from obr.persist import find, fntime, ident, store, write
+from obr.disk   import write
+from obr.object import Object
+from obr.store  import find, fntime, ident, store
 
 
 from . import elapsed

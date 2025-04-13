@@ -12,8 +12,9 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-from obr.objects import Default, Object
-from obr.runtime import later, launch
+from obr.client import Default
+from obr.object import Object
+from obr.thread import later, launch
 
 
 DEBUG = False

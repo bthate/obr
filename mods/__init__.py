@@ -11,38 +11,41 @@ import inspect
 import os
 import sys
 import threading
-import types
 import typing
+import types
+import _thread
 
 
-from obr.objects import Default
-from obr.runtime import Fleet, launch
+from obr.client import Default, Fleet
+from obr.object import Object as Object
+from obr.object import items, keys
+from obr.thread import later, launch
 
 
-MD5 = {}
-NAMES = {}
+CHECKSUM = "7b3aa07511d3d882d07a62bd8c3b6239"
+CHECKSUM = ""
+MD5      = {}
+NAMES    = {}
 
 
+lock     = threading.RLock()
 initlock = threading.RLock()
 loadlock = threading.RLock()
 
 
-checksum = "c8d54dcab25974fe7adce842da2f2c4e"
-checksum = ""
-
-path  = os.path.dirname(__file__)
-pname = f"{__package__}"
+path = os.path.dirname(__file__)
 
 
 class Main(Default):
 
     debug   = False
-    ignore  = 'dbg,llm,mbx,mdl,udp,wsd'
+    ignore  = ''
     init    = ""
-    md5     = True
-    name    = sys.argv[0].split(os.sep)[-1].lower()
+    md5     = False
+    name    = __name__.split(".", maxsplit=1)[0]
     opts    = Default()
     verbose = False
+    version = 3
 
 
 class Commands:
@@ -64,7 +67,7 @@ class Commands:
             name = Commands.names.get(cmd, None)
             if not name:
                 return
-            if not check(name):
+            if Main.md5 and not check(name):
                 return
             mod = load(name)
             if mod:
@@ -80,6 +83,29 @@ def command(evt) -> None:
         func(evt)
         Fleet.display(evt)
     evt.ready()
+
+
+def debug(*args):
+    for arg in args:
+        sys.stderr.write(str(arg))
+        sys.stderr.write("\n")
+        sys.stderr.flush()
+
+
+def inits(names) -> [types.ModuleType]:
+    modz = []
+    for name in spl(names):
+        try:
+            mod = load(name)
+            if not mod:
+                continue
+            if "init" in dir(mod):
+                thr = launch(mod.init)
+                modz.append((mod, thr))
+        except Exception as ex:
+            later(ex)
+            _thread.interrupt_main()
+    return modz
 
 
 def parse(obj, txt=None) -> None:
@@ -113,7 +139,7 @@ def parse(obj, txt=None) -> None:
             setattr(obj.silent, key, value)
             setattr(obj.gets, key, value)
             continue
-        elif "==" in spli:
+        if "==" in spli:
             key, value = spli.split("==", maxsplit=1)
             setattr(obj.gets, key, value)
             continue
@@ -149,24 +175,28 @@ def scan(mod) -> None:
             Commands.add(cmdz, mod)
 
 
+def settable():
+    Commands.names.update(table())
 
-" utilities"
+
+"imports"
 
 
-def check(name, sum=""):
-    mname = f"{pname}.{name}"
+def check(name, md5=""):
+    mname = f"{__name__}.{name}"
     pth = os.path.join(path, name + ".py")
     spec = importlib.util.spec_from_file_location(mname, pth)
     if not spec:
         return False
-    if md5sum(pth) == (sum or MD5.get(name, None)):
+    if md5sum(pth) == (md5 or MD5.get(name, None)):
         return True
-    debug(f"{name} failed md5sum check")
+    if CHECKSUM and Main.md5:
+        debug(f"{name} failed md5sum check")
     return False
 
 
 def getmod(name):
-    mname = f"{pname}.{name}"
+    mname = f"{__name__}.{name}"
     mod = sys.modules.get(mname, None)
     if mod:
         return mod
@@ -182,24 +212,18 @@ def getmod(name):
 
 def gettbl(name):
     pth = os.path.join(path, "tbl.py")
-    if os.path.exists(pth) and (not checksum or (md5sum(pth) == checksum)):
-        try:
-            mod = getmod("tbl")
-        except FileNotFoundError:
-            return
-        return getattr(mod, name, None)
-    return {}
-
-def inits(names) -> [types.ModuleType]:
-    mods = []
-    for name in spl(names):
-        mod = load(name)
-        if not mod:
-            continue
-        if "init" in dir(mod):
-            thr = launch(mod.init)
-        mods.append((mod, thr))
-    return mods
+    if not os.path.exists(pth):
+        debug("tbl.py is not there")
+        return {}
+    if CHECKSUM and (md5sum(pth) != CHECKSUM):
+        debug("table checksum doesn't match")
+        return {}
+    try:
+        mod = getmod("tbl")
+    except FileNotFoundError:
+        debug("tbl module not found")
+        return
+    return getattr(mod, name, {})
 
 
 def load(name) -> types.ModuleType:
@@ -207,7 +231,7 @@ def load(name) -> types.ModuleType:
         if name in Main.ignore:
             return
         module = None
-        mname = f"{pname}.{name}"
+        mname = f"{__name__}.{name}"
         module = sys.modules.get(mname, None)
         if not module:
             pth = os.path.join(path, f"{name}.py")
@@ -222,8 +246,8 @@ def load(name) -> types.ModuleType:
         return module
 
 
-def md5sum(path):
-    with open(path, "r", encoding="utf-8") as file:
+def md5sum(modpath):
+    with open(modpath, "r", encoding="utf-8") as file:
         txt = file.read().encode("utf-8")
         return str(hashlib.md5(txt).hexdigest())
 
@@ -261,22 +285,7 @@ def table():
     names = gettbl("NAMES")
     if names:
         NAMES.update(names)
-        Commands.names.update(NAMES)
-
-
-"debug"
-
-
-def debug(*args):
-    for arg in args:
-        sys.stderr.write(str(arg))
-        sys.stderr.write("\n")
-        sys.stderr.flush()
-
-
-def nodebug():
-    with open('/dev/null', 'a+', encoding="utf-8") as ses:
-        os.dup2(ses.fileno(), sys.stderr.fileno())
+    return NAMES
 
 
 "utilities"
@@ -327,6 +336,54 @@ def spl(txt) -> str:
     except (TypeError, ValueError):
         result = txt
     return [x for x in result if x]
+
+
+"methods"
+
+
+def edit(obj, setter, skip=False) -> None:
+    for key, val in items(setter):
+        if skip and val == "":
+            continue
+        try:
+            setattr(obj, key, int(val))
+            continue
+        except ValueError:
+            pass
+        try:
+            setattr(obj, key, float(val))
+            continue
+        except ValueError:
+            pass
+        if val in ["True", "true"]:
+            setattr(obj, key, True)
+        elif val in ["False", "false"]:
+            setattr(obj, key, False)
+        else:
+            setattr(obj, key, val)
+
+
+def fmt(obj, args=None, skip=None, plain=False) -> str:
+    if args is None:
+        args = keys(obj)
+    if skip is None:
+        skip = []
+    txt = ""
+    for key in args:
+        if key.startswith("__"):
+            continue
+        if key in skip:
+            continue
+        value = getattr(obj, key, None)
+        if value is None:
+            continue
+        if plain:
+            txt += f"{value} "
+        elif isinstance(value, str) and len(value.split()) >= 2:
+            txt += f'{key}="{value}" '
+        else:
+            txt += f'{key}={value} '
+    return txt.strip()
 
 
 "interface"

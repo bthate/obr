@@ -4,13 +4,13 @@
 "errors"
 
 
-from obr.runtime import Errors
+from obr.thread import Errors, line
 
 
 def err(event):
     nmr = 0
     for exc in Errors.errors:
-        event.reply(Errors.format(exc))
+        event.reply(line(exc))
         nmr += 1
     if not nmr:
         event.reply("no errors")

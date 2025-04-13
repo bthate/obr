@@ -8,8 +8,11 @@ import datetime
 import time
 
 
-from obr.objects import Object, construct, keys
-from obr.runtime import Event, Fleet, Repeater
+from obr.client  import Fleet
+from obr.handler import Event
+from obr.object  import Object, construct, keys
+from obr.thread  import Repeater
+
 
 from . import elapsed
 
