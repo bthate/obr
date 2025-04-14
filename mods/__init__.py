@@ -16,12 +16,10 @@ import types
 import _thread
 
 
-from obr.default import Default
-from obr.error   import later
 from obr.fleet   import Fleet
 from obr.object  import Object as Object
 from obr.object  import items, keys
-from obr.thread  import launch
+from obr.thread  import later, launch
 
 
 CHECKSUM = "7b3aa07511d3d882d07a62bd8c3b6239"
@@ -36,6 +34,12 @@ loadlock = threading.RLock()
 
 
 path = os.path.dirname(__file__)
+
+
+class Default(Object):
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, "")
 
 
 class Main(Default):

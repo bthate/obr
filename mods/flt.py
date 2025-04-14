@@ -6,7 +6,7 @@
 
 from obr.client import Fleet
 from obr.thread import name
-from .           import fmt
+from .          import fmt
 
 
 def flt(event):

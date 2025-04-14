@@ -12,9 +12,7 @@ from obr.event  import Event
 from obr.fleet  import Fleet
 from obr.object import Object, construct, keys
 from obr.thread import Repeater
-
-
-from . import elapsed
+from .          import debug, elapsed
 
 
 DAY = 24*60*60
@@ -34,8 +32,10 @@ def init():
             evt.txt = ""
             evt.rest = key
             sec = seconds(val)
-            repeater = Repeater(sec, cbstats, evt, thrname=aliases.get(key))
+            name = aliases.get(key)
+            repeater = Repeater(sec, cbstats, evt, thrname=name)
             repeater.start()
+            debug(f"{name} started at {STARTDATE})")
 
 
 "model"

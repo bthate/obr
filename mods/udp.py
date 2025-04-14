@@ -14,6 +14,7 @@ import time
 from obr.client import Fleet
 from obr.object import Object
 from obr.thread import launch
+from .          import debug
 
 
 DEBUG = True
@@ -22,6 +23,7 @@ DEBUG = True
 def init():
     udpd = UDP()
     udpd.start()
+    debug(f"rest server started at http://{Conifg.hostname}:{Config.port}")
     return udpd
 
 

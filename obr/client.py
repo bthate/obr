@@ -4,7 +4,6 @@
 "clients"
 
 
-from .default import Default
 from .fleet   import Fleet
 from .handler import Handler
 
@@ -13,7 +12,6 @@ class Client(Handler):
 
     def __init__(self):
         Handler.__init__(self)
-        self.state = Default()
         Fleet.add(self)
 
     def announce(self, txt) -> None:
@@ -29,5 +27,4 @@ class Client(Handler):
 def __dir__():
     return (
         'Client',
-        'Default'
     )

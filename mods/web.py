@@ -12,10 +12,9 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-from obr.default import Default
-from obr.error   import later
 from obr.object  import Object
-from obr.thread  import launch
+from obr.thread  import later, launch
+from .           import Default, debug
 
 
 DEBUG = False
@@ -24,6 +23,7 @@ DEBUG = False
 def init():
     server = HTTP((Cfg.hostname, int(Cfg.port)), HTTPHandler)
     server.start()
+    debug(f"web started at http://{Cfg.hostname}:{Cfg.port}")
     return server
 
 

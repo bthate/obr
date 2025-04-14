@@ -15,7 +15,6 @@ import time
 
 
 from obr.client  import Client
-from obr.default import Default
 from obr.disk    import write
 from obr.fleet   import Fleet
 from obr.event   import Event
@@ -23,7 +22,7 @@ from obr.object  import Object, keys
 from obr.store   import ident, last, store
 from obr.thread  import launch
 from .           import debug as ldebug
-from .           import Main, command, edit, fmt
+from .           import Default, Main, command, edit, fmt
 
 
 IGNORE  = ["PING", "PONG", "PRIVMSG"]
@@ -43,7 +42,7 @@ def init():
     irc = IRC()
     irc.start()
     irc.events.ready.wait()
-    debug(f'{fmt(Config, skip="edited,password")}')
+    ldebug(f'irc started with {fmt(Config, skip="edited,password")}')
     return irc
 
 

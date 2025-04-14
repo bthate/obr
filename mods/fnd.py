@@ -8,7 +8,7 @@ import time
 
 
 from obr.store import find, fntime, long, skel, types
-from .          import elapsed, fmt
+from .         import elapsed, fmt
 
 
 def fnd(event):

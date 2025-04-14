@@ -159,9 +159,6 @@ def search(obj, selector, matching=None) -> bool:
     return res
 
 
-"interface"
-
-
 def __dir__():
     return (
         'Workdir',
