@@ -15,16 +15,13 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.client import Client
-from obr.event  import Event
-from obr.json   import dumps
-from obr.store  import Workdir,moddir,  pidname
-from obr.thread import Errors, full
-
-
-if os.path.exists("mods"):
-    from mods import Commands, Main, command, inits, md5sum
-    from mods import mods, modules, parse, scan, settable
+from obr.client  import Client
+from obr.event   import Event
+from obr.json    import dumps
+from obr.modules import Commands, Main, command, inits, md5sum
+from obr.modules import mods, modules, parse, scan, settable
+from obr.store   import Workdir,moddir,  pidname
+from obr.thread  import Errors, full
 
 
 Main.name = sys.argv[0].split(os.sep)[-1].lower()
