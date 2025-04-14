@@ -228,7 +228,7 @@ your own written python3 code, see the %s/modules directory for examples.
 **AUTHOR**
 
 |
-| ``Bart Thate`` <``obrniet@gmail.com``>
+| ``Bart Thate`` <``..iet@gmail.com``>
 |
 
 **COPYRIGHT**

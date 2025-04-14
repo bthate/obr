@@ -7,9 +7,9 @@
 import time
 
 
-from obr.disk   import write
-from obr.object import Object
-from obr.store  import find, fntime, ident, store
+from ..disk   import write
+from ..object import Object
+from ..store  import find, fntime, ident, store
 
 
 from . import elapsed

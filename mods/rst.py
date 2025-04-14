@@ -12,10 +12,10 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-from obr.object  import Object
-from obr.store   import Workdir, types
-from obr.thread  import later, launch
-from .           import Default, debug
+from ..object import Object
+from ..store  import Workdir, types
+from ..thread import launch, later
+from .        import Default, debug
 
 
 DEBUG = False
@@ -24,7 +24,7 @@ DEBUG = False
 def init():
     rest = REST((Config.hostname, int(Config.port)), RESTHandler)
     rest.start()
-    debug(f"rest started at http://{Config.hostname}:{Config.port}")
+    debug(f"rest at http://{Config.hostname}:{Config.port}")
     return rest
 
 

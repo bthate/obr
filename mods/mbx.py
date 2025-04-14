@@ -9,9 +9,9 @@ import os
 import time
 
 
-from obr.disk   import write
-from obr.object import Object, keys, update
-from obr.store  import find, ident, store
+from ..disk   import write
+from ..object import Object, keys, update
+from ..store  import find, ident, store
 
 
 from .tmr import extract_date

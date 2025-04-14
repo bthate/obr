@@ -1,4 +1,4 @@
- # This file is placed in the Public Domain.
+# This file is placed in the Public Domain.
 
 
 "Genocide model of the Netherlands since 4 March 2019."
@@ -8,11 +8,11 @@ import datetime
 import time
 
 
-from obr.event  import Event
-from obr.fleet  import Fleet
-from obr.object import Object, construct, keys
-from obr.thread import Repeater
-from .          import debug, elapsed
+from ..fleet  import Fleet
+from ..event  import Event
+from ..object import Object, construct, keys
+from ..thread import Repeater
+from .        import debug, elapsed
 
 
 DAY = 24*60*60
@@ -35,7 +35,8 @@ def init():
             name = aliases.get(key)
             repeater = Repeater(sec, cbstats, evt, thrname=name)
             repeater.start()
-            debug(f"{name} started at {STARTDATE})")
+            debug(f"{name} at {STARTDATE} {elapsed(time.time()-STARTTIME)}")
+
 
 
 "model"

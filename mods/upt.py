@@ -7,7 +7,7 @@
 import time
 
 
-from obr.thread import STARTTIME
+from ..thread import STARTTIME
 from .           import elapsed
 
 

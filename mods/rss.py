@@ -19,10 +19,10 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 
 
-from obr.disk   import write
-from obr.object import Object, update
-from obr.store  import find, fntime, ident, last, store
-from obr.thread import Repeater, launch
+from ..disk   import write
+from ..object import Object, update
+from ..store  import find, fntime, ident, last, store
+from ..thread import Repeater, launch
 from .           import Fleet, elapsed, fmt, spl
 
 

@@ -8,8 +8,8 @@ import threading
 import time
 
 
-from obr.object import Object, update
-from obr.thread import STARTTIME
+from ..object import Object, update
+from ..thread import STARTTIME
 from .           import elapsed
 
 
