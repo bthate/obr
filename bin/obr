@@ -15,25 +15,19 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.objects import dumps
-from obr.persist import Workdir, pidname
-from obr.runtime import Client, Errors, Event
+from obr.client  import Client
+from obr.errors  import Errors, full
+from obr.event   import Event
+from obr.json    import dumps
+from obr.store   import Workdir,moddir,  pidname
 
 
-from mods import Main, inits, md5sum, mods, modules, nodebug
-from mods import Commands, command, parse, scan, table
+if os.path.exists("mods"):
+    from mods import Commands, Main, command, inits, md5sum
+    from mods import mods, modules, parse, scan, settable
 
 
-"cli"
-
-
-def doprint(txt):
-    print(txt.rstrip())
-    sys.stdout.flush()
-
-
-def output(txt):
-    doprint(txt)
+Main.name = sys.argv[0].split(os.sep)[-1].lower()
 
 
 class CLI(Client):
@@ -65,6 +59,15 @@ class Console(CLI):
 "output"
 
 
+def doprint(txt):
+    print(txt.rstrip())
+    sys.stdout.flush()
+
+
+def output(txt):
+    doprint(txt)
+
+
 def nil(txt):
     pass
 
@@ -77,6 +80,13 @@ def enable():
 def disable():
     global output
     output = nil
+
+
+"signals"
+
+
+def handler(signum, frame):
+    _thread.interrupt_main()
 
 
 "utilities"
@@ -93,8 +103,8 @@ def check(txt):
     for arg in args:
         if not arg.startswith("-"):
             continue
-        for c in txt:
-            if c in arg:
+        for char in txt:
+            if char in arg:
                 return True
     return False
 
@@ -119,12 +129,23 @@ def daemon(verbose=False):
     os.nice(10)
 
 
+def errors():
+    for exc in Errors.errors:
+        for line in full(exc):
+            output(line)
+
+
 def forever():
     while True:
         try:
             time.sleep(0.1)
         except (KeyboardInterrupt, EOFError):
             _thread.interrupt_main()
+
+
+def nodebug():
+    with open('/dev/null', 'a+', encoding="utf-8") as ses:
+        os.dup2(ses.fileno(), sys.stderr.fileno())
 
 
 def pidfile(filename):
@@ -148,80 +169,6 @@ def setwd(name, path=""):
     Main.name = name
     path = path or os.path.expanduser(f"~/.{name}")
     Workdir.wdr = path
-
-
-"handlers"
-
-
-def handler(signum, frame):
-    _thread.interrupt_main()
-
-
-"scripts"
-
-
-def background():
-    daemon("-v" in sys.argv)
-    setwd(Main.name)
-    privileges()
-    disable()
-    pidfile(pidname(Main.name))
-    table()
-    Commands.add(cmd)
-    inits(Main.init or "irc,rss")
-    forever()
-
-
-def console():
-    import readline # noqa: F401
-    setwd(Main.name)
-    enable()
-    table()
-    Commands.add(cmd)
-    parse(Main, " ".join(sys.argv[1:]))
-    Main.init = Main.sets.init or Main.init
-    Main.verbose = Main.sets.verbose or Main.verbose
-    if "v" in Main.opts:
-        banner()
-    for _mod, thr in inits(Main.init):
-        if "w" in Main.opts:
-            thr.join()
-    csl = Console()
-    csl.start()
-    forever()
-
-
-def control():
-    if len(sys.argv) == 1:
-        return
-    setwd(Main.name)
-    table()
-    enable()
-    Commands.add(cmd)
-    Commands.add(md5)
-    Commands.add(srv)
-    Commands.add(tbl)
-    parse(Main, " ".join(sys.argv[1:]))
-    csl = CLI()
-    evt = Event()
-    evt.orig = repr(csl)
-    evt.type = "command"
-    evt.txt = Main.otxt
-    command(evt)
-    evt.wait()
-
-
-def service():
-    setwd(Main.name)
-    table()
-    nodebug()
-    enable()
-    banner()
-    privileges()
-    pidfile(pidname(Main.name))
-    Commands.add(cmd)
-    inits(Main.init or "irc,rss")
-    forever()
 
 
 "commands"
@@ -262,21 +209,71 @@ def tbl(event):
     event.reply("}")
 
 
-"data"
+"scripts"
 
 
-TXT = """[Unit]
-Description=%s
-After=network-online.target
+def background():
+    daemon("-v" in sys.argv)
+    setwd(Main.name)
+    privileges()
+    disable()
+    pidfile(pidname(Main.name))
+    settable()
+    Commands.add(cmd)
+    inits(Main.init or "irc,rss")
+    forever()
 
-[Service]
-Type=simple
-User=%s
-Group=%s
-ExecStart=/home/%s/.local/bin/%s -s
 
-[Install]
-WantedBy=multi-user.target"""
+def console():
+    import readline # noqa: F401
+    setwd(Main.name)
+    enable()
+    settable()
+    Commands.add(cmd)
+    parse(Main, " ".join(sys.argv[1:]))
+    Main.init = Main.sets.init or Main.init
+    Main.verbose = Main.sets.verbose or Main.verbose
+    if "v" in Main.opts:
+        banner()
+    for _mod, thr in inits(Main.init):
+        if "w" in Main.opts:
+            thr.join()
+    csl = Console()
+    csl.start()
+    forever()
+
+
+def control():
+    if len(sys.argv) == 1:
+        return
+    setwd(Main.name)
+    settable()
+    enable()
+    Commands.add(cmd)
+    Commands.add(md5)
+    Commands.add(srv)
+    Commands.add(tbl)
+    parse(Main, " ".join(sys.argv[1:]))
+    csl = CLI()
+    evt = Event()
+    evt.orig = repr(csl)
+    evt.type = "command"
+    evt.txt = Main.otxt
+    command(evt)
+    evt.wait()
+
+
+def service():
+    setwd(Main.name)
+    settable()
+    nodebug()
+    enable()
+    banner()
+    privileges()
+    pidfile(pidname(Main.name))
+    Commands.add(cmd)
+    inits(Main.init or "irc,rss")
+    forever()
 
 
 "runtime"
@@ -287,9 +284,7 @@ def wrapped(func):
         func()
     except (KeyboardInterrupt, EOFError):
         output("")
-    for exc in Errors.errors:
-        for line in Errors.full(exc):
-            output(line)
+    errors()
 
 
 def wrap(func):
@@ -323,6 +318,26 @@ def main():
         wrapped(service)
     else:
         wrapped(control)
+
+
+"data"
+
+
+TXT = """[Unit]
+Description=%s
+After=network-online.target
+
+[Service]
+Type=simple
+User=%s
+Group=%s
+ExecStart=/home/%s/.local/bin/%s -s
+
+[Install]
+WantedBy=multi-user.target"""
+
+
+"main"
 
 
 if __name__ == "__main__":

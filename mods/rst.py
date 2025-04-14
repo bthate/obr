@@ -12,10 +12,10 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-from obr.client import Default
-from obr.object import Object
+from obr.errors import later
+from obr.object import Default, Object
 from obr.store  import Workdir, types
-from obr.thread import launch, later
+from obr.thread import launch
 
 
 DEBUG = False

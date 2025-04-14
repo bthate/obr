@@ -14,14 +14,15 @@ import threading
 import time
 
 
-from obr.client  import Default, Client, Fleet
+from obr.client  import Client
 from obr.disk    import write
-from obr.handler import Event
-from obr.object  import Object, keys
+from obr.fleet   import Fleet
+from obr.event   import Event
+from obr.object  import Default, Object, keys
 from obr.store   import ident, last, store
 from obr.thread  import launch
-from .            import debug as ldebug
-from .            import Main, command, edit, fmt
+from .           import debug as ldebug
+from .           import Main, command, edit, fmt
 
 
 IGNORE  = ["PING", "PONG", "PRIVMSG"]

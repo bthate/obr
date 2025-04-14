@@ -1,7 +1,7 @@
 # This file is placed in the Public Domain.
 
 
-"locate objects"
+"object store"
 
 
 import datetime
@@ -23,9 +23,6 @@ class Workdir:
 
     name = __file__.rsplit(os.sep, maxsplit=2)[-2]
     wdr  = ""
-
-
-"paths"
 
 
 def long(name) -> str:
@@ -167,7 +164,6 @@ def search(obj, selector, matching=None) -> bool:
 
 def __dir__():
     return (
-        'Cache',
         'Workdir',
         'fns',
         'fntime',

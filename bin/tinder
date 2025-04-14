@@ -17,11 +17,12 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from obr.client  import Client
-from obr.handler import Event
-from obr.object  import Object, keys
-from obr.store   import Workdir, skel
-from obr.thread  import STARTTIME, Errors, full, launch
+from obr.client import Client
+from obr.errors import Errors, full
+from obr.event  import Event
+from obr.object import Object, keys
+from obr.store  import Workdir, skel
+from obr.thread import STARTTIME, launch
 
 
 if os.path.exists("mods"):

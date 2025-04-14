@@ -16,10 +16,11 @@ import types
 import _thread
 
 
-from obr.client import Default, Fleet
+from obr.errors import later
+from obr.fleet  import Fleet
 from obr.object import Object as Object
-from obr.object import items, keys
-from obr.thread import later, launch
+from obr.object import Default, items, keys
+from obr.thread import launch
 
 
 CHECKSUM = "7b3aa07511d3d882d07a62bd8c3b6239"
@@ -39,7 +40,7 @@ path = os.path.dirname(__file__)
 class Main(Default):
 
     debug   = False
-    ignore  = ''
+    ignore  = 'dbg,udp,wsd'
     init    = ""
     md5     = False
     name    = __name__.split(".", maxsplit=1)[0]
