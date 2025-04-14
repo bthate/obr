@@ -16,11 +16,12 @@ import types
 import _thread
 
 
-from obr.errors import later
-from obr.fleet  import Fleet
-from obr.object import Object as Object
-from obr.object import Default, items, keys
-from obr.thread import launch
+from obr.default import Default
+from obr.errors  import later
+from obr.fleet   import Fleet
+from obr.object  import Object as Object
+from obr.object  import items, keys
+from obr.thread  import launch
 
 
 CHECKSUM = "7b3aa07511d3d882d07a62bd8c3b6239"

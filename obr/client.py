@@ -4,9 +4,9 @@
 "clients"
 
 
+from .default import Default
 from .fleet   import Fleet
 from .handler import Handler
-from .object  import Default
 
 
 class Client(Handler):

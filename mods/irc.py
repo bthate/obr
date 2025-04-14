@@ -15,10 +15,11 @@ import time
 
 
 from obr.client  import Client
+from obr.default import Default
 from obr.disk    import write
 from obr.fleet   import Fleet
 from obr.event   import Event
-from obr.object  import Default, Object, keys
+from obr.object  import Object, keys
 from obr.store   import ident, last, store
 from obr.thread  import launch
 from .           import debug as ldebug
