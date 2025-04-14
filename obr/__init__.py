@@ -4,13 +4,15 @@
 "NIXT"
 
 
-from .disk   import read,write
-from .json   import dumps, loads
-from .object import Object as Object
-from .object import construct, items, keys, update, values
+from .default import Default
+from .disk    import read,write
+from .json    import dumps, loads
+from .objec t import Object as Object
+from .objec t import construct, items, keys, update, values
 
 
 __all__ = (
+        'Default',
         'Object',
         'construct',
         'dumps',
