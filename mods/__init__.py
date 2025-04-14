@@ -17,7 +17,7 @@ import _thread
 
 
 from obr.default import Default
-from obr.errors  import later
+from obr.error   import later
 from obr.fleet   import Fleet
 from obr.object  import Object as Object
 from obr.object  import items, keys

@@ -13,7 +13,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
 from obr.default import Default
-from obr.errors  import later
+from obr.error   import later
 from obr.object  import Object
 from obr.store   import Workdir, types
 from obr.thread  import launch

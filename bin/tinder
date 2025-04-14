@@ -18,7 +18,7 @@ sys.path.insert(0, os.getcwd())
 
 
 from obr.client import Client
-from obr.errors import Errors, full
+from obr.error  import Errors, full
 from obr.event  import Event
 from obr.object import Object, keys
 from obr.store  import Workdir, skel
