@@ -1,7 +1,8 @@
 # This file is placed in the Public Domain.
 
 
-__doc__ = __name__.upper()
+
+"object runtime"
 
 
 from .client  import Client

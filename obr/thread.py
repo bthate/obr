@@ -18,6 +18,8 @@ STARTTIME = time.time()
 
 class Thread(threading.Thread):
 
+    """ thread """
+
     def __init__(self, func, thrname, *args, daemon=True, **kwargs):
         super().__init__(None, self.run, name, (), {}, daemon=daemon)
         self.name = thrname
@@ -28,10 +30,11 @@ class Thread(threading.Thread):
         self.queue.put((func, args))
 
     def run(self) -> None:
+        "run thread."
         try:
             func, args = self.queue.get()
             self.result = func(*args)
-        except Exception as ex:
+        except Exception as ex: # pylint: disable=W0718
             later(ex)
             try:
                 args[0].ready()
@@ -40,11 +43,14 @@ class Thread(threading.Thread):
             _thread.interrupt_main()
 
     def join(self, timeout=None):
+        "join thread."
         super().join(timeout)
         return self.result
 
 
 class Timer:
+
+    """ timer """
 
     def __init__(self, sleep, func, *args, thrname=None, **kwargs):
         self.args   = args
@@ -56,10 +62,12 @@ class Timer:
         self.timer  = None
 
     def run(self) -> None:
+        "run the timed function."
         self.state["latest"] = time.time()
         self.func(*self.args)
 
     def start(self) -> None:
+        "start timer."
         timer = threading.Timer(self.sleep, self.run)
         timer.name   = self.name
         timer.sleep  = self.sleep
@@ -71,21 +79,23 @@ class Timer:
         self.timer   = timer
 
     def stop(self) -> None:
+        "stop timer."
         if self.timer:
             self.timer.cancel()
 
 
 class Repeater(Timer):
 
+    """ repeater """
+
     def run(self) -> None:
+        "run repeated timer."
         launch(self.start)
         super().run()
 
 
-"utilities"
-
-
 def launch(func, *args, **kwargs) -> Thread:
+    "run function in a thread."
     nme = kwargs.get("name")
     if not nme:
         nme = name(func)
@@ -95,6 +105,7 @@ def launch(func, *args, **kwargs) -> Thread:
 
 
 def name(obj) -> str:
+    "return name of object."
     typ = type(obj)
     if '__builtins__' in dir(typ):
         return obj.__name__

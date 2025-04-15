@@ -7,21 +7,26 @@
 import traceback
 
 
-class Errors:
+class Errors: # pylint: disable=R0903
+
+    """ list of errors """
 
     name = __file__.rsplit("/", maxsplit=2)[-2]
     errors = []
 
 
 def full(exc) -> str:
+    "return list containing full exception trace."
     return traceback.format_exception(type(exc),exc,exc.__traceback__)
 
 
 def later(exc) -> None:
+    "add exception to list."
     Errors.errors.append(exc)
 
 
 def line(exc):
+    "return string version of the exception trace."
     exctype, excvalue, trb = type(exc), exc, exc.__traceback__
     trace = traceback.extract_tb(trb)
     result = ""

@@ -12,23 +12,29 @@ lock = threading.RLock()
 
 class Fleet:
 
-    bots = {}
+    "list of clients."
+
+    clients = {}
 
     @staticmethod
-    def add(bot) -> None:
-        Fleet.bots[repr(bot)] = bot
+    def add(clt) -> None:
+        "add client to fleet."
+        Fleet.clients[repr(clt)] = clt
 
     @staticmethod
     def all() -> []:
-        yield from Fleet.bots.values()
+        "return all clients."
+        yield from Fleet.clients.values()
 
     @staticmethod
     def announce(txt) -> None:
-        for bot in Fleet.bots.values():
-            bot.announce(txt)
+        "announce text on all clients."
+        for clt in Fleet.clients.values():
+            clt.announce(txt)
 
     @staticmethod
     def display(evt) -> None:
+        "display result of an event."
         with lock:
             for tme in sorted(evt.result):
                 Fleet.say(evt.orig, evt.channel, evt.result[tme])
@@ -36,27 +42,31 @@ class Fleet:
 
     @staticmethod
     def first() -> None:
-        bots =  list(Fleet.bots.values())
+        "first clients in list."
+        clt =  list(Fleet.clients.values())
         res = None
-        if bots:
-            res = bots[0]
+        if clt:
+            res = clt[0]
         return res
 
     @staticmethod
     def get(orig) -> None:
-        return Fleet.bots.get(orig, None)
+        "client by origin."
+        return Fleet.clients.get(orig, None)
 
     @staticmethod
     def say(orig, channel, txt) -> None:
-        bot = Fleet.get(orig)
-        if bot:
-            bot.say(channel, txt)
+        "echo text to channel."
+        clt = Fleet.get(orig)
+        if clt:
+            clt.say(channel, txt)
 
     @staticmethod
     def wait() -> None:
-        for bot in Fleet.bots.values():
-            if "wait" in dir(bot):
-                bot.wait()
+        "wait for clients to shutdown."
+        for clt in Fleet.clients.values():
+            if "wait" in dir(clt):
+                clt.wait()
 
 
 def __dir__():
