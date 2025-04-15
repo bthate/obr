@@ -10,8 +10,6 @@ import time
 
 class Event:
 
-    """ event """
-
     def __init__(self):
         self._ready = threading.Event()
         self._thr   = None
@@ -36,19 +34,15 @@ class Event:
         return str(self.__dict__)
 
     def done(self) -> None:
-        "event is done."
         self.reply("ok")
 
     def ready(self) -> None:
-        "event is ready."
         self._ready.set()
 
     def reply(self, txt) -> None:
-        "add text to result."
         self.result[time.time()] = txt
 
     def wait(self) -> None:
-        "wait for result."
         self._ready.wait()
         if self._thr:
             self._thr.join()
