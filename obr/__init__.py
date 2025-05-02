@@ -8,7 +8,7 @@ from .client  import Client
 from .event   import Event
 from .fleet   import Fleet
 from .handler import Handler
-from .thread  import STARTTIME, Errors, Repeater, Timer, full, later, launch, line, name
+from .thread  import STARTTIME, Errors, Repeater, full, later, launch, line, name
 
 
 __all__ = (
@@ -19,7 +19,6 @@ __all__ = (
     'Fleet',
     'Handler',
     'Repeater',
-    'Timer',
     'later',
     'launch',
     'line',
