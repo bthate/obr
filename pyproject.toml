@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "obr"
 description = "object runtime"
-version = "41"
+version = "50"
 authors = [
     {name = "Bart Thate",email = "bthate@dds.nl"},
 ]

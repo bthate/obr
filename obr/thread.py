@@ -157,7 +157,6 @@ def __dir__():
         'STARTTIME',
         'Errors',
         'Repeater',
-        'Thread',
         'Timer',
         'full',
         'later',
