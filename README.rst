@@ -5,7 +5,7 @@ OBR
 **NAME**
 
 
-``obr`` - OBR
+``OBR`` - objects runtime
 
 
 **SYNOPSIS**
