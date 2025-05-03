@@ -8,6 +8,9 @@ import threading
 import time
 
 
+from .fleet import Fleet
+
+
 class Event:
 
     def __init__(self):
@@ -32,6 +35,9 @@ class Event:
 
     def __str__(self):
         return str(self.__dict__)
+
+    def display(self, output=None):
+        Fleet.display(self, output)
 
     def done(self) -> None:
         self.reply("ok")

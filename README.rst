@@ -5,29 +5,26 @@ OBR
 **NAME**
 
 
-``OBR`` - object runtime
+``obr`` - OBR
 
 
 **SYNOPSIS**
 
 ::
 
-
-    >>> from obr.event import Event
-    >>> from obr.handler import Handler
-    >>>
+    >>> from obr import Client, Event
     >>> def hello(event):
-    >>>     event.reply("hello!")
-    >>>     event.ready()
-    >>>
-    >>> hdl = Handler()
-    >>> hdl.register("hello", hello)
-    >>> hdl.start()
-    >>>
+    ...     event.reply("hello!")
+    ... 
+    >>> clt = Client()
+    >>> clt.register("hello", hello)
+    >>> clt.start()
+    >>> 
     >>> e = Event()
     >>> e.type = "hello"
-    >>> hdl.put(e)
-    >>> e.wait()
+    >>> clt.put(e)
+    >>> e.display(print)
+    hello!
 
 
 **DESCRIPTION**

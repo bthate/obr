@@ -28,9 +28,11 @@ class Fleet:
             clt.announce(txt)
 
     @staticmethod
-    def display(evt) -> None:
+    def display(evt, output=None) -> None:
         with lock:
             clt = Fleet.get(evt.orig)
+            if output:
+                clt.raw = output
             for tme in sorted(evt.result):
                 clt.say(evt.channel, evt.result[tme])
             evt.ready()
